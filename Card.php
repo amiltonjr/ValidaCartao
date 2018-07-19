@@ -104,7 +104,7 @@ class Card {
     
     // Método que limpa um número de cartão recebido
     // @param $number - Número do cartão
-    // @return void
+    // @return String - Número limpo
     private function prepareCardNumber($number='') {
         // Efetua as substituições
         return str_replace(array(' ', '.', ',', '-', "\n", "\t"), '', trim($number));
