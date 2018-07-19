@@ -9,8 +9,8 @@
 class ValidaCartao {
     
     // Atributos da classe
-    private $card_number = 0;
-    private $card_bank = '';
+    private $card_number    = 0;
+    private $card_bank      = '';
     
     // Método construtor
     public function ValidaCartao() {}
@@ -28,10 +28,13 @@ class ValidaCartao {
         $this->card_number = $number;
 
         // Identifica o banco emissor
+        $this->card_bank = $this->getCardBank($number);
+        
+        return true;
     }
     
     // Método que valida o número de um cartão de crédito
-    public function validateCardNumber($number='') {
+    private function validateCardNumber($number='') {
         // Remove espaços, quebras de linha e tabulações do valor recebido
         $number = $this->prepareCardNumber($number);
         
@@ -39,13 +42,8 @@ class ValidaCartao {
         if (!is_numeric($number) || strlen($number) < 13 || strlen($number) > 16)
             return false;
         
-        // Verifica se a formação do número é, inicialmente, válido, de acordo com as regras dos bancos
-        if  (
-                !((strlen($number) == 15 && (substr($number, 0, 2) == '34' || substr($number, 0, 2) == '37')) // AMEX
-                || (strlen($number) == 16 && substr($number, 0, 4) == '6011') // Discover
-                || (strlen($number) == 16 && (substr($number, 0, 2) == '51' || substr($number, 0, 2) == '55')) // MasterCard
-                || (substr($number, 0, 1) == '4' && (strlen($number) == 13 || strlen($number) == 16))) // Visa
-            )
+        // Verifica se o cartão tem uma bandeira válida
+        if  ($this->getCardBank($number) == 'Desconhecido')
             return false;
         
         // Faz a validação pelo algoritmo Luhn
@@ -83,9 +81,32 @@ class ValidaCartao {
     }
     
     // Método que limpa um número de cartão recebido
-    public function prepareCardNumber($number='') {
+    private function prepareCardNumber($number='') {
         // Efetua as substituições
         return str_replace(array(' ', '.', ',', '-', "\n", "\t"), '', trim($number));
+    }
+    
+    // Método que identifica o nome do banco emissor/bandeira do cartão
+    private function getCardBank($number='') {
+        // AMEX
+        if (strlen($number) == 15 && (substr($number, 0, 2) == '34' || substr($number, 0, 2) == '37'))
+            return 'AMEX';
+        
+        // Discover
+        else if (strlen($number) == 16 && substr($number, 0, 4) == '6011')
+            return 'Discover';
+        
+        // MasterCard
+        else if (strlen($number) == 16 && (substr($number, 0, 2) == '51' || substr($number, 0, 2) == '55'))
+            return 'MasterCard';
+        
+        // Visa
+        else if (substr($number, 0, 1) == '4' && (strlen($number) == 13 || strlen($number) == 16))
+            return 'Visa';
+        
+        // Desconhecido
+        else
+            return 'Desconhecido';
     }
     
 }
