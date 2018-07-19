@@ -21,9 +21,8 @@ class Card {
     
     // Método construtor
     function __construct($number='') {
-        // Adiciona o número do cartão e já faz a validação
-        if ($this->setCardNumber($number))
-            $this->isValid = true;
+        // Adiciona o número do cartão e faz a validação do mesmo
+        $this->setCardNumber($number);
     }
     
     // Método que define o número do cartão
@@ -32,16 +31,13 @@ class Card {
         $number = $this->prepareCardNumber($number);
         
         // Verifica se o atributo number é válido, de acordo com as regras
-        if (!$this->validateCardNumber($number))
-            return false;
+        $this->isValid = $this->validateCardNumber($number);
         
         // Salva o número no atributo da classe
         $this->card_number = $number;
 
         // Identifica o banco emissor
         $this->card_bank = $this->getCardBank($number);
-        
-        return true;
     }
     
     // Método que valida o número de um cartão de crédito
@@ -57,8 +53,13 @@ class Card {
         if (!is_numeric($number) || strlen($number) < 13 || strlen($number) > 16)
             return false;
         
-        // Verifica se o cartão tem uma bandeira válida
-        if  ($this->getCardBank($number) == $this->B_DESCONHECIDO)
+        // Verifica se o cartão cumpre as regras de formatação do banco emissor/bandeira
+        if  (
+                !((strlen($number) == 15 && (substr($number, 0, 2) == '34' || substr($number, 0, 2) == '37')) // AMEX
+                || (strlen($number) == 16 && substr($number, 0, 4) == '6011') // Discover
+                || (strlen($number) == 16 && (substr($number, 0, 2) == '51' || substr($number, 0, 2) == '55')) // MasterCard
+                || (substr($number, 0, 1) == '4' && (strlen($number) == 13 || strlen($number) == 16))) // Visa
+            )
             return false;
         
         // Faz a validação pelo algoritmo Luhn
@@ -108,19 +109,19 @@ class Card {
             $number = $this->card_number;
 
         // AMEX
-        if (strlen($number) == 15 && (substr($number, 0, 2) == '34' || substr($number, 0, 2) == '37'))
+        if (substr($number, 0, 2) == '34' || substr($number, 0, 2) == '37')
             return $this->B_AMEX;
         
         // Discover
-        else if (strlen($number) == 16 && substr($number, 0, 4) == '6011')
+        else if (substr($number, 0, 4) == '6011')
             return $this->B_DISCOVER;
         
         // MasterCard
-        else if (strlen($number) == 16 && (substr($number, 0, 2) == '51' || substr($number, 0, 2) == '55'))
+        else if (substr($number, 0, 2) == '51' || substr($number, 0, 2) == '55')
             return $this->B_MASTERCARD;
         
         // Visa
-        else if (substr($number, 0, 1) == '4' && (strlen($number) == 13 || strlen($number) == 16))
+        else if (substr($number, 0, 1) == '4')
             return $this->B_VISA;
         
         // Desconhecido
