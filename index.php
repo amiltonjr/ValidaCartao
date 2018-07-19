@@ -10,10 +10,10 @@
 // Inclui a classe Card
 include_once('Card.php');
 
-// Pula uma linha no começo do output
-echo "\n";
+// Imprime um cabeçalho no começo do output
+echo "\n== TESTE DE NUMEROS DE CARTOES ==\n\n";
 
-// Define os números dos cartões
+// Define os números dos cartões a serem testados
 $numeros = array('4111111111111111', '4111111111111', '4012888888881881', 
     '378282246310005', '6011111111111117', '5105105105105100', 
     '5105105105105106', '9111111111111111');
