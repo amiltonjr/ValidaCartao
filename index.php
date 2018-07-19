@@ -20,7 +20,7 @@ $cartao = new Card($numero);
 echo 'Numero = '.$numero;
 echo "\nValido = ";
 
-if ($cartao->validateCardNumber($numero))
+if ($cartao->validateCardNumber())
     echo 'SIM';
 else
     echo 'NAO';

@@ -41,7 +41,11 @@ class Card {
     }
     
     // Método que valida o número de um cartão de crédito
-    private function validateCardNumber($number='') {
+    public function validateCardNumber($number='') {
+        // Se o número estiver vazio, pega o atributo da classe
+        if (strlen($number) < 2)
+            $number = $this->card_number;
+        
         // Remove espaços, quebras de linha e tabulações do valor recebido
         $number = $this->prepareCardNumber($number);
         
