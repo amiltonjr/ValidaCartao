@@ -13,17 +13,16 @@ include_once('Card.php');
 // Pula uma linha no começo do output
 echo "\n";
 
+// Define o número do cartão
 $numero = '4111111111111111';
-
+// Cria um novo objeto Card
 $cartao = new Card($numero);
-
-echo 'Numero = '.$numero;
-echo "\nValido = ";
-
+// Imprime a validação
+echo $cartao->getBank().': '.$numero.' (';
 if ($cartao->validateCardNumber())
-    echo 'SIM';
+    echo "válido)\n";
 else
-    echo 'NAO';
+    echo "inválido)\n";
 
-// Pula duas linhas no fim do output
-echo "\n\n";
+// Pula uma linha no fim do output
+echo "\n";
