@@ -10,22 +10,26 @@
 class Card {
     
     // Atributos da classe
-    private $card_number    = 0;
-    private $card_bank      = '';
-    private $isValid        = false;
-    private $B_AMEX         = 'AMEX';
-    private $B_DISCOVER     = 'Discover';
-    private $B_MASTERCARD   = 'MasterCard';
-    private $B_VISA         = 'VISA';
-    private $B_DESCONHECIDO = 'Desconhecido';
+    private $card_number    = 0; // Número do cartão
+    private $card_bank      = ''; // Nome do banco emissor/bandeira
+    private $isValid        = false; // Flag que indica se o número é válido
+    private $B_AMEX         = 'AMEX'; // Nome impresso da bandeira AMEX
+    private $B_DISCOVER     = 'Discover'; // Nome impresso da bandeira Discover
+    private $B_MASTERCARD   = 'MasterCard'; // Nome impresso da bandeira MasterCard
+    private $B_VISA         = 'VISA'; // Nome impresso da bandeira Visa
+    private $B_DESCONHECIDO = 'Desconhecido'; // Nome impresso da bandeira desconhecida
     
     // Método construtor
+    // @param $number - Número do cartão
+    // $return Card - Objeto da classe
     function __construct($number='') {
         // Adiciona o número do cartão e faz a validação do mesmo
         $this->setCardNumber($number);
     }
     
     // Método que define o número do cartão
+    // @param $number - Número do cartão
+    // $return void
     private function setCardNumber($number='') {
         // Remove espaços, quebras de linha e tabulações do valor recebido
         $number = $this->prepareCardNumber($number);
@@ -41,6 +45,8 @@ class Card {
     }
     
     // Método que valida o número de um cartão de crédito
+    // @param $number - Número do cartão
+    // @return boolean - Resultado da validação do número
     public function validateCardNumber($number='') {
         // Pega o número do atributo da classe, se nenhum foi passado via parâmetro
         if ($number == '')
@@ -97,12 +103,16 @@ class Card {
     }
     
     // Método que limpa um número de cartão recebido
+    // @param $number - Número do cartão
+    // @return void
     private function prepareCardNumber($number='') {
         // Efetua as substituições
         return str_replace(array(' ', '.', ',', '-', "\n", "\t"), '', trim($number));
     }
     
     // Método que identifica o nome do banco emissor/bandeira do cartão
+    // @param $number - Número do cartão
+    // @return String - Nome impresso da bandeira
     private function getCardBank($number='') {
         // Pega o número do atributo da classe, se nenhum parâmetro for passado
         if ($number == '')
@@ -130,16 +140,22 @@ class Card {
     }
     
     // Método que retorna com o número do cartão salvo
+    // @param void
+    // @return String - Número do cartão salvo no atributo da classe
     public function getNumber() {
         return $this->card_number;
     }
     
     // Método que retorna com o nome do banco emissor/bandeira do cartão
+    // @param void
+    // @return String - Bandeira do cartão salva no atributo da classe
     public function getBank() {
         return $this->card_bank;
     }
     
     // Método que verifica se o número do cartão é válido
+    // @param void
+    // @return boolean - Resultado da validação salvo no atributo da classe
     public function isValidCard() {
         return $this->isValid;
     }

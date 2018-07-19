@@ -30,7 +30,7 @@ foreach ($numeros as $numero) {
     else
         echo "inválido)\n";
     
-    // Remove o objeto da memória
+    // Remove o objeto Card da memória
     unset($cartao);
 }
 
