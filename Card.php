@@ -12,22 +12,25 @@ class Card {
     // Atributos da classe
     private $card_number    = 0;
     private $card_bank      = '';
+    private $isValid        = false;
     private $B_AMEX         = 'AMEX';
     private $B_DISCOVER     = 'Discover';
     private $B_MASTERCARD   = 'MasterCard';
-    private $B_VISA         = 'Visa';
+    private $B_VISA         = 'VISA';
     private $B_DESCONHECIDO = 'Desconhecido';
     
     // Método construtor
-    public function Card($number='') {
-        $this->setCardNumber($number);
+    function __construct($number='') {
+        // Adiciona o número do cartão e já faz a validação
+        if ($this->setCardNumber($number))
+            $this->isValid = true;
     }
     
     // Método que define o número do cartão
-    public function setCardNumber($number='') {
+    private function setCardNumber($number='') {
         // Remove espaços, quebras de linha e tabulações do valor recebido
         $number = $this->prepareCardNumber($number);
-
+        
         // Verifica se o atributo number é válido, de acordo com as regras
         if (!$this->validateCardNumber($number))
             return false;
@@ -43,8 +46,8 @@ class Card {
     
     // Método que valida o número de um cartão de crédito
     public function validateCardNumber($number='') {
-        // Se o número estiver vazio, pega o atributo da classe
-        if (strlen($number) < 2)
+        // Pega o número do atributo da classe, se nenhum foi passado via parâmetro
+        if ($number == '')
             $number = $this->card_number;
         
         // Remove espaços, quebras de linha e tabulações do valor recebido
@@ -100,6 +103,10 @@ class Card {
     
     // Método que identifica o nome do banco emissor/bandeira do cartão
     private function getCardBank($number='') {
+        // Pega o número do atributo da classe, se nenhum parâmetro for passado
+        if ($number == '')
+            $number = $this->card_number;
+
         // AMEX
         if (strlen($number) == 15 && (substr($number, 0, 2) == '34' || substr($number, 0, 2) == '37'))
             return $this->B_AMEX;
@@ -129,6 +136,11 @@ class Card {
     // Método que retorna com o nome do banco emissor/bandeira do cartão
     public function getBank() {
         return $this->card_bank;
+    }
+    
+    // Método que verifica se o número do cartão é válido
+    public function isValidCard() {
+        return $this->isValid;
     }
     
 }
