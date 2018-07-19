@@ -7,14 +7,15 @@
  * Data: Julho de 2018
  */
 
-include_once('ValidaCartao.php');
+// Inclui a classe Card
+include_once('Card.php');
 
 // Pula uma linha no começo do output
 echo "\n";
 
-$cartao = new ValidaCartao();
-
 $numero = '4111111111111111';
+
+$cartao = new Card($numero);
 
 echo 'Numero = '.$numero;
 echo "\nValido = ";

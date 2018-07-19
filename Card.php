@@ -6,7 +6,7 @@
  * Autor: Amilton Fontoura de Camargo Junior
  * Data: Julho de 2018
  */
-class ValidaCartao {
+class Card {
     
     // Atributos da classe
     private $card_number    = 0;
@@ -18,7 +18,9 @@ class ValidaCartao {
     private $B_DESCONHECIDO = 'Desconhecido';
     
     // Método construtor
-    public function ValidaCartao() {}
+    public function Card($number='') {
+        $this->setCardNumber($number);
+    }
     
     // Método que define o número do cartão
     public function setCardNumber($number='') {
