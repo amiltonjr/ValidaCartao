@@ -114,4 +114,14 @@ class ValidaCartao {
             return $this->B_DESCONHECIDO;
     }
     
+    // Método que retorna com o número do cartão salvo
+    public function getNumber() {
+        return $this->card_number;
+    }
+    
+    // Método que retorna com o nome do banco emissor/bandeira do cartão
+    public function getBank() {
+        return $this->card_bank;
+    }
+    
 }
