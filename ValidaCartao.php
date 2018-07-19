@@ -11,6 +11,11 @@ class ValidaCartao {
     // Atributos da classe
     private $card_number    = 0;
     private $card_bank      = '';
+    private $B_AMEX         = 'AMEX';
+    private $B_DISCOVER     = 'Discover';
+    private $B_MASTERCARD   = 'MasterCard';
+    private $B_VISA         = 'Visa';
+    private $B_DESCONHECIDO = 'Desconhecido';
     
     // Método construtor
     public function ValidaCartao() {}
@@ -43,7 +48,7 @@ class ValidaCartao {
             return false;
         
         // Verifica se o cartão tem uma bandeira válida
-        if  ($this->getCardBank($number) == 'Desconhecido')
+        if  ($this->getCardBank($number) == $this->B_DESCONHECIDO)
             return false;
         
         // Faz a validação pelo algoritmo Luhn
@@ -90,23 +95,23 @@ class ValidaCartao {
     private function getCardBank($number='') {
         // AMEX
         if (strlen($number) == 15 && (substr($number, 0, 2) == '34' || substr($number, 0, 2) == '37'))
-            return 'AMEX';
+            return $this->B_AMEX;
         
         // Discover
         else if (strlen($number) == 16 && substr($number, 0, 4) == '6011')
-            return 'Discover';
+            return $this->B_DISCOVER;
         
         // MasterCard
         else if (strlen($number) == 16 && (substr($number, 0, 2) == '51' || substr($number, 0, 2) == '55'))
-            return 'MasterCard';
+            return $this->B_MASTERCARD;
         
         // Visa
         else if (substr($number, 0, 1) == '4' && (strlen($number) == 13 || strlen($number) == 16))
-            return 'Visa';
+            return $this->B_VISA;
         
         // Desconhecido
         else
-            return 'Desconhecido';
+            return $this->B_DESCONHECIDO;
     }
     
 }
