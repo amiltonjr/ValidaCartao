@@ -13,16 +13,26 @@ include_once('Card.php');
 // Pula uma linha no começo do output
 echo "\n";
 
-// Define o número do cartão
-$numero = '4111111111111111';
-// Cria um novo objeto Card
-$cartao = new Card($numero);
-// Imprime a validação
-echo $cartao->getBank().': '.$numero.' (';
-if ($cartao->validateCardNumber())
-    echo "válido)\n";
-else
-    echo "inválido)\n";
+// Define os números dos cartões
+$numeros = array('4111111111111111', '4111111111111', '4012888888881881', 
+    '378282246310005', '6011111111111117', '5105105105105100', 
+    '5105105105105106', '9111111111111111');
+
+// Percorre cada um dos números
+foreach ($numeros as $numero) {
+    // Cria um objeto Card
+    $cartao = new Card($numero);
+    
+    // Imprime a validação
+    echo $cartao->getBank().': '.$cartao->getNumber().' (';
+    if ($cartao->isValidCard())
+        echo "válido)\n";
+    else
+        echo "inválido)\n";
+    
+    // Remove o objeto da memória
+    unset($cartao);
+}
 
 // Pula uma linha no fim do output
 echo "\n";
